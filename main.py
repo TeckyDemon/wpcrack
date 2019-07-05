@@ -82,7 +82,7 @@ def bot(id):
 					proxies={
 						'https':proxy
 					},
-					timeout=20,
+					timeout=10,
 					allow_redirects=False
 				)
 				if len(response.cookies):
