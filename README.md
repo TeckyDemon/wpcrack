@@ -100,20 +100,20 @@ git clone "https://github.com/DeBos99/wpcrack.git"
 
 ### Required arguments
 
-| Argument                   | Description                                |
-| :------------------------- | :----------------------------------------- |
-| -e EMAIL<br>--email EMAIL  | Sets the email to hack to **EMAIL**.       |
-| -w PATH<br>--wordlist PATH | Sets the path to the wordlist to **PATH**. |
+| Argument            | Description            |
+| :------------------ | :--------------------- |
+| -e, --email EMAIL   | Sets target email.     |
+| -w, --wordlist PATH | Sets path to wordlist. |
 
 ### Optional arguments
 
-| Argument                  | Description                                             | Default value               |
-| :------------------------ | :------------------------------------------------------ | :-------------------------- |
-| -h<br>--help              | Shows help message.                                     |                             |
-| -t T<br>--threads T       | Sets the number of threads to **T**.                    | 15                          |
-| -p PATH<br>--proxies PATH | Sets the path to the list with the proxies to **PATH**. | Proxies list from internet. |
-| -v<br>--verbose           | Enables verbose mode.                                   | False.                      |
-| -d<br>--debug             | Enables debug mode.                                     | False.                      |
+| Argument           | Description                     | Default value               |
+| :----------------- | :------------------------------ | :-------------------------- |
+| -h<br>--help       | Shows help message and exits.   |                             |
+| -t, --threads N    | Sets number of threads.         | 15                          |
+| -p, --proxies PATH | Sets path to file with proxies. | Proxies list from internet. |
+| -v, --verbose      | Enables verbose mode.           | False                       |
+| -d, --debug        | Enables debug mode.             | False                       |
 
 ## Disclaimer
 

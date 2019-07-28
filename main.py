@@ -99,10 +99,10 @@ def bot(id):
 if __name__=='__main__':
 	try:
 		parser=ArgumentParser()
-		parser.add_argument('-e','--email',help='set the target email',required=True)
-		parser.add_argument('-w','--wordlist',help='set the path to the list with the passwords',required=True)
-		parser.add_argument('-t','--threads',type=int,help='set number of the threads',default=15)
-		parser.add_argument('-p','--proxies',help='set the path to the list with the proxies')
+		parser.add_argument('-e','--email',help='set target email',required=True)
+		parser.add_argument('-w','--wordlist',help='set path to wordlist',required=True)
+		parser.add_argument('-t','--threads',type=int,help='set number of threads',default=15)
+		parser.add_argument('-p','--proxies',help='set path to file with proxies')
 		parser.add_argument('-v','--verbose',help='enable verbose mode',action='store_true')
 		parser.add_argument('-d','--debug',help='enable debug mode',action='store_true')
 		args=parser.parse_args()
